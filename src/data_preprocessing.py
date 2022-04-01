@@ -20,7 +20,7 @@ def preprocess_images(filename: str):
     args: folder - name of the folder with images outside of src folder
     """   
     image = Image.open(filename).convert('L')
-    new_image = image.resize((256, 256))
+    new_image = image.resize((128, 128))
     new_image.save(filename)
 
 

@@ -1,3 +1,6 @@
+import requests
+#from api import get_weather_by_key
+
 
 
 def get_weather_by_key(key):
@@ -23,6 +26,18 @@ def get_weather_by_key(key):
 
 
 
-if __name__=='__main__':
-    pass
+def get_model_result(url, img):
+    """
+    Getting model result
+    """
+    # get the image
+    img = np.array(Image.open(img).convert('L'))
+
+    
+    # return the result
+    return None
+
+
+
+
 
