@@ -1,3 +1,5 @@
+import requests
+from PIL import Image
 
 
 def get_weather_by_key(key):
@@ -20,9 +22,4 @@ def get_weather_by_key(key):
 
     code_reversed = dict((v, k) for k, v in code_dict.items())        
     return code_reversed[key]
-
-
-
-if __name__=='__main__':
-    pass
 

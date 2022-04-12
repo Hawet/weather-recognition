@@ -28,11 +28,13 @@ def predict():
         img = np.array(Image.open(request.files['image'].stream).convert('L'))
 
         # predict the image
-        list_of_probas = model.predict(img.reshape(1,128,128,1))
+        list_of_probas = model.predict(img.reshape(1,128,128,1)).flatten()
         index_max = max(range(len(list_of_probas)), key=list_of_probas.__getitem__)
         final_predict = get_weather_by_key(index_max)
 
         # return the result
+        print(list_of_probas)
+        print(index_max)
         return jsonify(final_predict)
 
 

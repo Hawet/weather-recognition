@@ -3,11 +3,12 @@
 from statistics import mode
 import numpy as np
 import pandas as pd
-from sklearn.model_selection import train_test_split
+from sklearn.model_selection import learning_curve, train_test_split
 from sklearn.preprocessing import OneHotEncoder
 from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Dense, Conv2D, Flatten, MaxPooling2D, Dropout, BatchNormalization
 from tensorflow.keras.callbacks import ModelCheckpoint, EarlyStopping
+from tensorflow.keras.layers.experimental.preprocessing import RandomContrast
 
 
 def read_data():
@@ -58,8 +59,8 @@ class Classifier():
         Train the model
         """
         self.model = Sequential()
+        #self.model.add(RandomContrast(0.5, seed=42))
         self.model.add(Conv2D(32, kernel_size=(3, 3), activation='relu', input_shape=(128, 128, 1)))
-        self.model.add(Conv2D(16, (3, 3), activation='relu'))
         self.model.add(MaxPooling2D(pool_size=(2, 2)))
         self.model.add(Dropout(0.25))
         self.model.add(Flatten())
