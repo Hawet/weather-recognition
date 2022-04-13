@@ -77,9 +77,18 @@ def update_output(contents, filename, last_modified):
     if contents is not None:
         # base 64 decode contents
         #print((contents))        
-        image = Image.open(base64_pil(contents))
-        image.save('test.jpg', 'JPEG')
-
+        image = base64_pil(contents)
+        children=html.Div(
+                                        children =get_model_result(image),
+                                        style={
+                                                'textAlign': 'center',
+                                                'color': colors['text'],
+                                                'height': '200px',
+                                                'width': '100%',
+                                                'fontSize': '25px'
+                                                }
+                        )
+        return children
 
 if __name__ == '__main__':
     app.run_server(debug=True)

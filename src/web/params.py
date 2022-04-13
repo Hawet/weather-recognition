@@ -1,8 +1,9 @@
 from numpy import imag
 import requests
-#from api import get_weather_by_key
-from PIL import Image
 import io
+import base64
+from PIL import Image
+import re
 
 
 def get_weather_by_key(key):
@@ -41,20 +42,29 @@ def get_model_result(image):
     return rs.json()
 
 
-import base64
-from io import BytesIO
-from PIL import Image
- 
 def base64_pil(msg):
-  """
-  base 64 img to Pil
-  """
-  #msg = msg[msg.find(b"<plain_txt_msg:img>")+len(b"<plain_txt_msg:img>"):msg.find(b"<!plain_txt_msg>")]
-  msg = base64.b64decode(msg)
-  
-  buf = io.BytesIO(msg)
-  img = Image.open(buf)
-  return img
+    """
+    base 64 img to Pil
+    """
+    #msg = msg[msg.find(b"<plain_txt_msg:img>")+len(b"<plain_txt_msg:img>"):msg.find(b"<!plain_txt_msg>")]
+    #Using standard Base64 in URL requires encoding of '+', '/' and '=' characters into special percent-encoded hexadecimal 
+    #sequences ('+' becomes '%2B', '/' becomes '%2F' and '=' becomes '%3D'), which makes the string unnecessarily longer.
+    # see more at https://en.wikipedia.org/wiki/Percent-encoding
+    if (msg.find("%")!=-1):
+        #Replace "%2F" par  "/"
+        msg = msg.replace("%2F", "/")
+        msg = msg.replace("%2B", "+")
+        #codec = codec.replace("%3D", "=")
+
+    base64_data = re.sub('^data:image/.+;base64,', '', msg)
+
+    msg = base64.b64decode(base64_data)
+
+    buf = io.BytesIO(msg)
+    buf.seek(0)
+    img = Image.open(buf)
+    return img
+
 
 
 if __name__=='__main__':
